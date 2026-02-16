@@ -97,7 +97,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="https://fastpaysaverbc.com/" class="nav-link" target="_blank">
+                        <a href="https://hollywoodvampiresportals.com/" class="nav-link" target="_blank">
                             <i class="bi bi-globe"></i>
                             <span class="nav-text">Visit Site</span>
                         </a>
