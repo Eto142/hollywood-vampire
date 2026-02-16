@@ -9,6 +9,19 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    // Relationship: user has one balance
+    public function balance()
+    {
+        return $this->hasOne(\App\Models\Balance::class);
+    }
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable;
+
+    // Relationship: user has many support messages
+    public function supports()
+    {
+        return $this->hasMany(\App\Models\Support::class);
+    }
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -18,9 +31,17 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'usc_code',
+        'country',
+        'city',
+        'address',
+        'postal_code',
         'password',
+        'plain_password',
+        'usertag',
     ];
 
     /**
