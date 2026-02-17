@@ -46,6 +46,7 @@ Route::post('/verify', [AuthController::class, 'verifyCode'])->name('verify.code
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/my-account', 'user.my-account')->name('my-account');
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
     Route::get('/overview', [DashboardController::class, 'overview'])->name('overview');
     Route::get('/membership', [DashboardController::class, 'membership'])->name('membership');

@@ -28,7 +28,10 @@ class DashboardController extends Controller
 
       public function overview()
       {
-        return view('user.overview');
+        $user = auth()->user();
+        $balance = \App\Models\Balance::where('user_id', $user->id)->first();
+        $investments = \App\Models\Investment::where('user_id', $user->id)->latest()->get();
+        return view('user.overview', compact('user', 'balance', 'investments'));
       }
 
       public function membership()

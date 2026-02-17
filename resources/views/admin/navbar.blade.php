@@ -43,9 +43,9 @@
                 <div class="nav-section-title">Financial</div>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                     <li class="nav-item">
-                        <a href="" class="nav-link ">
+                        <a href="{{route('admin.upgrades.index')}}" class="nav-link {{ request()->routeIs('admin.upgrades.index') ? 'active' : '' }}">
                             <i class="bi bi-cash-stack"></i>
-                            <span class="nav-text">Pending Upgrades</span>
+                            <span class="nav-text">Membership Upgrades</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -103,8 +103,11 @@
                         </a>
                     </li>
 
-                     <li class="nav-item">
-                        <a href="{{route('admin.change.password')}}" class="nav-link {{ request()->routeIs('admin.change.password') ? 'active' : '' }}">
+                    <li class="nav-item">
+                        <form id="admin-logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">
                             <i class="bi bi-key-fill"></i>
                             <span class="nav-text">Logout</span>
                         </a>

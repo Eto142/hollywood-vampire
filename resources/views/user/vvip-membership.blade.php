@@ -55,19 +55,60 @@
                                     </div>
 
                                     <div class="mt-3">
-                                    <form method="get" action="/upgrade-account.php"> 
-                                    
-                                    <input type="hidden" name="option" value="VVIP" />
-                                    <input type="hidden" name="token" value="4gsf12" />
-                                        <button name="sub-mem" type="submit" class=" w-full bg-gradient-to-r from-[#7B9CCE] to-[#231813] hover:bg-[#4b3227] duration-200 text-[#F6E9DD] px-16 py-4 font-medium rounded-lg">
-                                            Upgrade my membership
-                                        </button>
-</form>
-
-                                        <a href="membership"> <button class="mt-2 w-full bg-gradient-to-r from-[#ECECEC] hover:bg-[#a8a7a7] duration-200 text-[#9C9995] px-16 py-4 font-medium rounded-lg">
-                                            Go back
-                                        </button> </a>
+                                        <form id="upgradeFormVVIP" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="new_membership" value="VVIP" />
+                                            <input type="hidden" name="amount" value="45000" />
+                                            <button type="submit" class="w-full bg-gradient-to-r from-[#7B9CCE] to-[#231813] hover:bg-[#4b3227] duration-200 text-[#F6E9DD] px-16 py-4 font-medium rounded-lg">
+                                                Upgrade my membership
+                                            </button>
+                                        </form>
+                                        <a href="membership">
+                                            <button class="mt-2 w-full bg-gradient-to-r from-[#ECECEC] hover:bg-[#a8a7a7] duration-200 text-[#9C9995] px-16 py-4 font-medium rounded-lg">
+                                                Go back
+                                            </button>
+                                        </a>
                                     </div>
+                                    <script>
+                                    document.getElementById('upgradeFormVVIP').addEventListener('submit', function(e) {
+                                        e.preventDefault();
+                                        fetch("{{ route('membership.upgrade') }}", {
+                                            method: 'POST',
+                                            headers: {
+                                                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                                                'Accept': 'application/json',
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify({
+                                                new_membership: 'VVIP',
+                                                amount: 45000
+                                            })
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.status === 'success') {
+                                                Swal.fire({
+                                                    title: 'Request Received',
+                                                    text: 'We have received your request. We will send you a response via mail.',
+                                                    icon: 'success',
+                                                });
+                                            } else {
+                                                Swal.fire({
+                                                    title: 'Error!',
+                                                    text: data.message || 'You have a pending upgrade (Kindly check your mail for further instructions)',
+                                                    icon: 'error',
+                                                });
+                                            }
+                                        })
+                                        .catch(() => {
+                                            Swal.fire({
+                                                title: 'Error!',
+                                                text: 'An error occurred. Please try again.',
+                                                icon: 'error',
+                                            });
+                                        });
+                                    });
+                                    </script>
                                 </div>
                             </div>
 

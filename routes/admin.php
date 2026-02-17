@@ -1,4 +1,6 @@
 <?php
+use App\Http\Controllers\Admin\MembershipUpgradeController;
+use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\ConversionController;
@@ -11,10 +13,11 @@ use App\Http\Controllers\Admin\ManageLoanController;
 use App\Http\Controllers\Admin\ManagePaymentController;
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\SendEmailController;
-use App\Http\Controllers\Admin\WalletController;
 // use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\WithdrawalController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -32,6 +35,11 @@ use Illuminate\Support\Facades\Route;
 
 
     Route::middleware('auth:admin')->group(function () {
+
+      // Membership Upgrades
+      Route::get('/upgrades', [MembershipUpgradeController::class, 'adminIndex'])->name('upgrades.index');
+      Route::post('/upgrades/{id}/approve', [MembershipUpgradeController::class, 'adminApprove'])->name('upgrades.approve');
+      Route::post('/upgrades/{id}/reject', [MembershipUpgradeController::class, 'adminReject'])->name('upgrades.reject');
           Route::post('/activity/{id}/edit', [\App\Http\Controllers\Admin\ActivityController::class, 'edit'])->name('activity.edit');
         Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
         Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
@@ -54,7 +62,7 @@ use Illuminate\Support\Facades\Route;
         Route::post('/support/send/{userId}', [\App\Http\Controllers\Admin\SupportController::class, 'send'])->name('support.send');
 
       // User Activities
-      Route::get('/user/{id}/activities', [\App\Http\Controllers\Admin\ActivityController::class, 'index'])->name('user.activities');
+      Route::get('/user/{id}/activities', [\App\Http\Controllers\Admin\ActivityController::class, 'yindex'])->name('user.activities');
       Route::post('/user/{id}/activities', [\App\Http\Controllers\Admin\ActivityController::class, 'store'])->name('user.activities.store');
       Route::delete('/activity/{id}', [\App\Http\Controllers\Admin\ActivityController::class, 'destroy'])->name('activity.delete');
    
@@ -127,13 +135,7 @@ Route::post('/admin/withdrawal/{id}/decline', [WithdrawalController::class, 'dec
      Route::post('/update-user-password/{id}', [ManageUserController::class, 'updateUserPassword'])->name('update.user.password');
 
 
-    //manage escrow ;
-// Approve escrow verification
-// Route::post('/escrow/{id}/approve', [ManageEscrowController::class, 'approve'])->name('escrow.approve');
-
-// Decline escrow verification
-// Route::post('/escrow/{id}/decline', [ManageEscrowController::class, 'decline'])->name('escrow.decline');
-
+  
 //Manage Payment
    Route::get('manage-payment', [ManagePaymentController::class, 'ManagePayment'])->name('manage.payment');
 
@@ -145,12 +147,9 @@ Route::post('/send-email', [SendEmailController::class, 'send'])->name('send.ema
 
 //wallet update
 
+
     Route::post('/choose-wallet', [WalletController::class, 'chooseWallet'])->name('choose.wallet');
 
+    }); // Close Route::middleware('auth:admin')->group
 
-    // Close the admin/mail group
-  });
-    // Close the main admin group
-});
-
-
+  }); // Close Route::middleware(['web'])->prefix('admin')->name('admin.')->group

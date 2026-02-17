@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Activity;
 use App\Models\User;
 
-class ActivityController extends Controller
+class ActivityController extends Controller {
 
     public function edit(Request $request, $id)
     {
@@ -25,7 +25,6 @@ class ActivityController extends Controller
         $activity->save();
         return response()->json(['success' => true]);
     }
-{
     public function index($userId)
     {
         $user = User::findOrFail($userId);

@@ -32,9 +32,9 @@
                             </h2>
 
                             <h2 class="text-3xl font-bold font-inter text-[#3E2D1C] mt-4">
-                                $10,000.00
+                                ${{ number_format($balance->wallet_balance ?? 0, 2) }}
                             </h2>
-                            <p class="text-sm text-[#4b4b4ba4]">Gained Profits</p>
+                            <p class="text-sm text-[#4b4b4ba4]">Wallet Balance</p>
 
 
                             <div class="flex gap-x-3 mt-5">
@@ -94,7 +94,7 @@
                                                     </div>
 
                                                     <div class="relative mb-10">
-                                                        <input type="text" disabled value="$10,000" id="balance_filled" class="block rounded-lg border px-5 pb-2.5 pt-6 w-full  text-sm font-semibold text-gray-900 bg-gray-50 dark:bg-gray-700   appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                                                        <input type="text" disabled value="${{ number_format($balance->wallet_balance ?? 0, 2) }}" id="balance_filled" class="block rounded-lg border px-5 pb-2.5 pt-6 w-full  text-sm font-semibold text-gray-900 bg-gray-50 dark:bg-gray-700   appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
                                                         <p class="text-xs px-5 mt-1.5 font-semibold text-[#C98C61]">*Please ensure your balance is unlocked</p>
                                                         <label for="balance_filled" class="px-4 absolute text-sm  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Account Balance (Available)</label>
                                                     </div>
@@ -169,7 +169,8 @@
                             </h2>
                             
                             <h2 class="text-3xl font-bold font-inter text-[#3E2D1C] mt-4">
-                                $16,000                            </h2>
+                                ${{ number_format($balance->investment_balance ?? 0, 2) }}
+                            </h2>
                             <p class="text-sm text-[#4b4b4ba4]">Amount currently invested</p>
 
 
@@ -201,52 +202,37 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                  <tr class="text-sm  border-b ">
-                          <td class="py-4 px-4 "><span>Regular</span> </td>
-                          <td class="py-4 px-4  "><span style="background-color:#FFFFED; color:#fcbe03" class="px-4 py-2  rounded-md font-medium bg-[#fcad03]">Pending approval</span></td>
-                          <td class="py-4 px-4  whitespace-nowrap">
-                              <div class="flex gap-x-3 items-center">
-                                  <div>
-                                      <p>Start</p>
-                                      <p class="font-semibold">Oct 09, 2025 </p>
-                                  </div>
-
-                                  <p class="font-semibold">-</p>
-
-
-                                  <div>
-                                      <p>End</p>
-                                      <p class="font-semibold">Apr 09, 2026 </p>
-                                  </div>
-                              </div>
-                          </td>
-                          <td class="py-4 px-4 whitespace-nowrap">6,000 USD</td>
-                          <td class="py-4 px-4 whitespace-nowrap">6,600 USD</td>
-
-                      </tr>  <tr class="text-sm  border-b ">
-                          <td class="py-4 px-4 "><span>Regular</span> </td>
-                          <td class="py-4 px-4  "><span style="background-color:#FFFFED; color:#fcbe03" class="px-4 py-2  rounded-md font-medium bg-[#fcad03]">Pending approval</span></td>
-                          <td class="py-4 px-4  whitespace-nowrap">
-                              <div class="flex gap-x-3 items-center">
-                                  <div>
-                                      <p>Start</p>
-                                      <p class="font-semibold">Oct 09, 2025 </p>
-                                  </div>
-
-                                  <p class="font-semibold">-</p>
-
-
-                                  <div>
-                                      <p>End</p>
-                                      <p class="font-semibold">Apr 09, 2026 </p>
-                                  </div>
-                              </div>
-                          </td>
-                          <td class="py-4 px-4 whitespace-nowrap">10,000 USD</td>
-                          <td class="py-4 px-4 whitespace-nowrap">11,000 USD</td>
-
-                      </tr>
-
+                                @forelse($investments as $investment)
+                                    <tr class="text-sm border-b">
+                                        <td class="py-4 px-4 "><span>{{ $investment->plan }}</span></td>
+                                        <td class="py-4 px-4">
+                                            @if($investment->status == 1)
+                                                <span style="background-color:#e6ffed; color:#10b981" class="px-4 py-2 rounded-md font-medium">Active</span>
+                                            @else
+                                                <span style="background-color:#FFFFED; color:#fcbe03" class="px-4 py-2 rounded-md font-medium">Pending approval</span>
+                                            @endif
+                                        </td>
+                                        <td class="py-4 px-4 whitespace-nowrap">
+                                            <div class="flex gap-x-3 items-center">
+                                                <div>
+                                                    <p>Start</p>
+                                                    <p class="font-semibold">{{ $investment->created_at->format('M d, Y') }}</p>
+                                                </div>
+                                                <p class="font-semibold">-</p>
+                                                <div>
+                                                    <p>End</p>
+                                                    <p class="font-semibold">{{ $investment->status == 1 ? $investment->created_at->addMonths(6)->format('M d, Y') : '-' }}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-4 whitespace-nowrap">{{ number_format($investment->amount, 2) }} USD</td>
+                                        <td class="py-4 px-4 whitespace-nowrap">{{ $investment->status == 1 ? number_format($investment->amount * 1.1, 2) : '-' }} USD</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center py-5 text-muted">No investments found.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

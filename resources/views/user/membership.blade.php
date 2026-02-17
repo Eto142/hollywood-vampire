@@ -8,8 +8,12 @@
 
           <div class="rounded-lg py-2 pl-4 lg:pl-4 bg-[#F6EEE7] pr-3 flex items-center justify-between"><div class="flex items-center space-x-2">
               <img src="assets/img/exclamation2.svg" class="w-8 lg:w-7" />
+              @php
+                $approvedUpgrade = \App\Models\MembershipUpgrade::where('user_id', Auth::id())->where('status', 1)->orderByDesc('id')->first();
+                $currentMembership = $approvedUpgrade->new_membership ?? (Auth::user()->membership_type ?? 'basic');
+              @endphp
               <h2 class="text-sm font-medium lg:text-base text-tertiary">
-                You’re on a basic membership plan
+                You’re on a {{ $currentMembership }} membership plan
               </h2>
             </div> </div>          <div></div>
         </div>
@@ -63,9 +67,14 @@
                   </div>
                 </div>
                 <div class="px-3">
+                  @php
+                    $hasVip = \App\Models\MembershipUpgrade::where('user_id', Auth::id())->where('new_membership', 'VIP')->where('status', 1)->exists();
+                  @endphp
+                  @if(!$hasVip)
                   <a href="{{ url('vip-membership') }}"> <button class="bg-gradient-to-r from-[#1D1B1A] to-[#670505] w-full text-white px-16 py-3.5 mx-auto mt-5 font-medium rounded-lg">
                       Switch to VIP
                     </button> </a>
+                  @endif
                 </div>
 
                 <div></div>
@@ -132,10 +141,15 @@
                   </div>
                 </div>
                 <div class="px-3">
+                  @php
+                    $hasVvip = \App\Models\MembershipUpgrade::where('user_id', Auth::id())->where('new_membership', 'VVIP')->where('status', 1)->exists();
+                  @endphp
+                  @if(!$hasVvip)
                   <a href="{{ url('vvip-membership') }}">
                     <button class="bg-gradient-to-r from-[#1D1B1A] to-[#670505] w-full text-white px-16 py-3.5 mx-auto mt-5 font-medium rounded-lg">
                       Switch to VVIP
                     </button> </a>
+                  @endif
                 </div>
 
                 <div></div>
@@ -201,9 +215,14 @@
                   </div>
                 </div>
                 <div class="px-3">
+                  @php
+                    $hasPlatinum = \App\Models\MembershipUpgrade::where('user_id', Auth::id())->where('new_membership', 'Platinum')->where('status', 1)->exists();
+                  @endphp
+                  @if(!$hasPlatinum)
                   <a href="{{ url('platinum-membership') }}"> <button class="bg-gradient-to-r from-[#1D1B1A] to-[#670505] w-full text-white px-16 py-3.5 mx-auto mt-5 font-medium rounded-lg">
                       Switch to Platinum
                     </button> </a>
+                  @endif
                 </div>
 
                 <div></div>
