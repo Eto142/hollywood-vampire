@@ -73,7 +73,7 @@
 
                   <div class="">
                     <h2 class="text-[2rem] text-white font-bold" id="balanceAmount">
-                      ${{ $balance->wallet_balance ?? '0.00' }}
+                      ${{ number_format((float)($balance->wallet_balance ?? 0)) }}
                     </h2>
                   </div>
 
@@ -131,11 +131,13 @@
 
                 function toggleBalance() {
                   if (isBalanceHidden) {
-                    balanceAmount.textContent = `$10,000.00`;
-                    creditCardNumber.textContent = '9034589360';
-                  } else {
                     balanceAmount.textContent = '********';
                     creditCardNumber.textContent = '**** **** **** ****';
+                  } else {
+                    // Show the real balance with commas and no decimals
+                    let realBalance = {{ (float)($balance->wallet_balance ?? 0) }};
+                    balanceAmount.textContent = `$${realBalance.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+                    creditCardNumber.textContent = `{{ Auth::user()->phone_number }}`;
                   }
                 }
               </script>

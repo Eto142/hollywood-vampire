@@ -45,11 +45,11 @@ class ManageUserController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             //'password' => 'required|string|min:6', // Remove password from validation
-            'usc_code' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:255',
+            'zip_code' => 'required|string|max:255',
         ]);
 
         // Generate random password
@@ -217,6 +217,36 @@ public function SuspendUser(Request $request, $id)
 
 
 
+
+ /**
+     * Update the specified user in storage.
+     */
+    public function updateUser(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'phone_number' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'zip_code' => 'required|string|max:255',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->first_name = $validated['first_name'];
+        $user->last_name = $validated['last_name'];
+        $user->email = $validated['email'];
+        $user->phone_number = $validated['phone_number'];
+        $user->country = $validated['country'];
+        $user->city = $validated['city'];
+        $user->address = $validated['address'];
+        $user->zip_code = $validated['zip_code'];
+        $user->save();
+
+        return redirect()->back()->with('status', 'User updated successfully!');
+    }
 
 
 

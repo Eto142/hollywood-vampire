@@ -346,11 +346,12 @@
            value="{{$userProfile->city}}">
 </div>
 
+
 <div class="col-md-6 mb-3">
-    <label class="form-label">Postal Code</label>
-    <input type="text" name="postal_code"
+    <label class="form-label">Zip Code</label>
+    <input type="text" name="zip_code"
            class="form-control"
-           value="{{$userProfile->postal_code}}">
+           value="{{$userProfile->zip_code}}">
 </div>
 
 <div class="col-md-6 mb-3">
@@ -360,11 +361,12 @@
            value="{{$userProfile->address}}">
 </div>
 
+
 <div class="col-md-6 mb-3">
-    <label class="form-label">USC Code</label>
-    <input type="text" name="usc_code"
+    <label class="form-label">Phone Number</label>
+    <input type="text" name="phone_number"
            class="form-control"
-           value="{{$userProfile->usc_code}}">
+           value="{{$userProfile->phone_number}}">
 </div>
 
 <div class="col-md-6 mb-3">
@@ -377,14 +379,14 @@
         <option value="platinum" {{ (isset($userProfile->memplan) && $userProfile->memplan == 'platinum') ? 'selected' : '' }}>Platinum</option>
     </select>
 </div>
-<div class="col-md-6 mb-3">
+{{-- <div class="col-md-6 mb-3">
     <label class="form-label text-success">Wallet Balance</label>
     <input type="number" name="walletbalu" class="form-control" value="{{ $balance->wallet_balance ?? '' }}">
 </div>
 <div class="col-md-6 mb-3">
     <label class="form-label text-success">Investment Balance</label>
     <input type="number" name="profitbalu" class="form-control" value="{{ $balance->investment_balance ?? '' }}">
-</div>
+</div> --}}
 
 <div class="col-12 mt-3">
     <button class="btn btn-primary waves-effect waves-light">
@@ -468,7 +470,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Time</label>
-                        <input type="text" name="time" required value="" class="form-control">
+                        <input type="date" name="time" required value="" class="form-control">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Select Type</label>
@@ -540,7 +542,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Time</label>
-                                                <input type="text" id="editActivityTime" class="form-control" required>
+                                                <input type="date" id="editActivityTime" class="form-control" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Type</label>
