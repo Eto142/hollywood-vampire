@@ -73,7 +73,7 @@
 
                   <div class="">
                     <h2 class="text-[2rem] text-white font-bold" id="balanceAmount">
-                      ${{ number_format((float)($balance->wallet_balance ?? 0)) }}
+                      ${{ number_format((float)($balance->wallet_balance ?? 0)) }}.00
                     </h2>
                   </div>
 
