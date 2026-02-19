@@ -234,8 +234,8 @@
 
                     <div class="flex-shrink-0">
                         <div class="avatar-xl me-3">
-                            <img src="{{ asset('uploads/display/' . ($userProfile->display_picture ?? 'avatar.jpg')) }}"
-                                 class="img-fluid rounded-circle d-block">
+                               <img src="https://ui-avatars.com/api/?name={{ urlencode($userProfile->first_name . ' ' . $userProfile->last_name) }}&background=0D8ABC&color=fff&size=70"
+                                   class="img-fluid rounded-circle d-block">
                         </div>
                     </div>
 
