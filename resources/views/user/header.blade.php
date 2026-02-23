@@ -22,7 +22,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body>
+<body style="background: url('/images/227787735_xl.jpg') center center/cover repeat; background-size: cover; min-width: 100vw;">
   <main class="font-inter">
     <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
       <span class="sr-only">Open sidebar</span>
@@ -30,11 +30,12 @@
         <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
       </svg>
     </button>
-    <aside id="logo-sidebar" class="bg-[#7F1D1D] fixed top-0 left-0 z-40 w-[19rem] h-full pt-[4.5rem] transition-transform -translate-x-full lg:translate-x-0 md:pt-[3rem] overflow-y-auto" aria-label="Sidebar">
-    <div class="px-3 pl-14 pb-10">
-        <img src="assets/img/logo.svg" class="w-[10rem]" />
+    <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-[19rem] h-full pt-[4.5rem] transition-transform -translate-x-full lg:translate-x-0 md:pt-[3rem] overflow-y-auto" aria-label="Sidebar" style="background: url('/images/WEBSITE_BKGRND_MUSIC.jpg') center center/cover no-repeat;">
+    <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.55);"></div>
+    <div class="px-3 pl-14 pb-10 relative" style="position: relative; z-index: 1;">
+        <img src="/images/HV_LOGO_RED_HORIZONTAL.png" class="w-[10rem] rounded-lg" />
     </div>
-    <div class="h-full pb-4 overflow-y-auto  dark:bg-gray-800">
+    <div class="h-full pb-4 overflow-y-auto dark:bg-gray-800 relative z-10">
         <ul class="space-y-2">
             <span class="text-white text-xs pl-14 px-8">My tools</span>
             <li>

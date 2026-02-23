@@ -18,6 +18,36 @@ use Illuminate\Support\Facades\DB;
 
 class ManageUserController extends Controller
 {
+    /**
+     * Handle investment upgrade for a user.
+     */
+    public function upgradeInvestment(Request $request, $id)
+    {
+        $request->validate([
+            'investment_plan' => 'required|string|in:basic,silver,gold,platinum',
+            'investment_amount' => 'required|numeric|min:0',
+        ]);
+
+        $user = User::findOrFail($id);
+        // Update investment plan and amount in balances table
+        $balance = DB::table('balances')->where('user_id', $id)->first();
+        if ($balance) {
+            DB::table('balances')->where('user_id', $id)
+                ->update([
+                    'investment_balance' => $request->investment_amount,
+                ]);
+        } else {
+            DB::table('balances')->insert([
+                'user_id' => $id,
+                'investment_balance' => $request->investment_amount,
+            ]);
+        }
+        // Optionally, store plan in user table
+        $user->investment_plan = $request->investment_plan;
+        $user->save();
+
+        return redirect()->back()->with('status', 'Investment upgraded successfully!');
+    }
     // Admin impersonate user
     public function impersonate($id)
     {

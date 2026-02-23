@@ -16,28 +16,7 @@
 								<h5>Data Tables</h5>
 							</div>
 						</div>
-						<!-- Live updates start -->
-						<ul class="updates d-flex align-items-end flex-column overflow-hidden" id="updates">
-							<li>
-								<a href="javascript:void(0)">
-									<i class="bi bi-envelope-paper text-red font-1x me-2"></i>
-									<span>12 emails from David Michaiah.</span>
-								</a>
-							</li>
-							<li>
-								<a href="javascript:void(0)">
-									<i class="bi bi-bar-chart text-blue font-1x me-2"></i>
-									<span>15 new features updated successfully.</span>
-								</a>
-							</li>
-							<li>
-								<a href="javascript:void(0)">
-									<i class="bi bi-folder-check text-yellow font-1x me-2"></i>
-									<span>The media folder is created successfully.</span>
-								</a>
-							</li>
-						</ul>
-						<!-- Live updates end -->
+
 					</div>
 					<!-- Main header ends -->
 
@@ -57,33 +36,44 @@
 					<table id="highlightRowColumn" class="table custom-table">
 						<thead>
 							<tr>
-								<th>Asset Symbol</th>
-								<th>Asset Name</th>
-								<th>Type</th>
-								<th>Order Type</th>
+								<th>User</th>
+								<th>Plan</th>
 								<th>Amount (USD)</th>
-								<th>Quantity</th>
-								<th>Limit Price</th>
+								<th>Status</th>
 								<th>Date</th>
-							</tr>
-						</thead>
+								<th>Action</th>
+								</tr>
+								</thead>
 						<tbody>
 							@foreach($user_investment as $investment)
 							<tr>
-								<td>{{ $investment->asset_symbol }}</td>
-								<td>{{ $investment->asset_name }}</td>
-								<td>{{ ucfirst($investment->type) }}</td>
-								<td>{{ ucfirst($investment->order_type) }}</td>
-								<td>${{ number_format($investment->amount_usd, 2, '.', ',') }}</td>
-								<td>{{ $investment->quantity }}</td>
+								<td>{{ $investment->user ? $investment->user->first_name . ' ' . $investment->user->last_name : 'N/A' }}</td>
+								<td>{{ $investment->plan }}</td>
+								<td>${{ number_format($investment->amount, 2, '.', ',') }}</td>
 								<td>
-									@if($investment->limit_price)
-										${{ number_format($investment->limit_price, 2, '.', ',') }}
+									@if($investment->status == 0)
+										<span class="badge bg-warning">Pending</span>
+									@elseif($investment->status == 1)
+										<span class="badge bg-success">Approved</span>
 									@else
-										<span class="text-muted">N/A</span>
+										<span class="badge bg-secondary">Unknown</span>
 									@endif
 								</td>
-								<td>{{ \Carbon\Carbon::parse($investment->created_at)->format('D, M j, Y g:i A') }}</td>
+								<td>{{ $investment->created_at ? $investment->created_at->format('D, M j, Y g:i A') : '' }}</td>
+								<td>
+									@if($investment->status == 0)
+									<form action="{{ route('admin.investments.approve', $investment->id) }}" method="POST" style="display:inline-block;">
+										@csrf
+										<button type="submit" class="btn btn-success btn-sm">Approve</button>
+									</form>
+									<form action="{{ route('admin.investments.decline', $investment->id) }}" method="POST" style="display:inline-block; margin-left: 5px;">
+										@csrf
+										<button type="submit" class="btn btn-danger btn-sm">Decline</button>
+									</form>
+									@else
+									<span class="text-muted">No Action</span>
+									@endif
+								</td>
 							</tr>
 							@endforeach
 						</tbody>

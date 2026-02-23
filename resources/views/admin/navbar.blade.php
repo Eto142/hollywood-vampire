@@ -64,7 +64,7 @@
                 <div class="nav-section-title">Financial</div>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href="{{ route('admin.manage.investments') }}" class="nav-link">
                             <i class="bi bi-cash-stack"></i>
                             <span class="nav-text">Pending Investments</span>
                         </a>

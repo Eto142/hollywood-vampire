@@ -21,7 +21,7 @@
             <div class="container">
 
             </div>
-            <div class="container px-4 pt-2 pb-[3rem] ">
+            <div class="container px-4 pt-2 pb-[3rem] " style="background: rgba(255,255,255,0.7); border-radius: 1rem;">
                 <div class="">
                     <div class=" py-12 px-9 rounded-lg bg-[rgba(134,15,15,0.1)]">
                         <div class="flex items-center space-x-1 mb-2">

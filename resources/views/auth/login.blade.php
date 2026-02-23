@@ -71,7 +71,7 @@
   </style>
 </head>
 
-<body class="bg-main-bg bg-cover bg-slate-500 font-inter min-h-screen flex items-center justify-center">
+<body class="font-inter min-h-screen flex items-center justify-center" style="background: url('/images/WEBSITE_BKGRND_MUSIC.jpg') center center/cover no-repeat;">
     <style>
     .alert-class {
       background-color: #7F1D1D;
@@ -106,7 +106,7 @@
     class="relative z-10 w-full max-w-md mx-4 p-8 bg-gradient-overlay rounded-xl shadow-2xl shadow-black/50 animate-fadeInUp">
     
     <div class="text-center mb-10">
-      <img class="mx-auto w-32 transform hover:scale-105 transition-transform duration-300" src="assets/img/logo.svg"
+      <img class="mx-auto w-32 transform hover:scale-105 transition-transform duration-300" src="/images/HV_LOGO_RED_HORIZONTAL.png"
         alt="The Hollywood Vampires" />
       <h2 class="mt-6 text-4xl font-bold text-[#f0ceae] tracking-wide font-orbitron">Hello, Welcome</h2>
       <p class="mt-2 text-sm text-[rgba(255,255,255,0.6)]">Unlock your exclusive access</p>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\WithdrawalController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -57,6 +58,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/investments', [\App\Http\Controllers\User\InvestmentController::class, 'store'])->name('user.investments.store');
     Route::get('/support', [\App\Http\Controllers\User\SupportController::class, 'index'])->name('support');
     Route::post('/support/send', [\App\Http\Controllers\User\SupportController::class, 'send'])->name('support.send');
+    // Deposit routes
+    Route::get('/deposit', [\App\Http\Controllers\User\DepositController::class, 'create'])->name('deposit.create');
+    Route::post('/deposit', [\App\Http\Controllers\User\DepositController::class, 'store'])->name('deposit.store');
+    Route::get('/deposit/{deposit}/details', [\App\Http\Controllers\User\DepositController::class, 'details'])->name('deposit.details');
     Route::get('/support/fetch', [\App\Http\Controllers\User\SupportController::class, 'fetch'])->name('support.fetch');
     Route::get('/activity-log', [DashboardController::class, 'activityLog'])->name('activity-log');
+    Route::post('/withdrawal', [WithdrawalController::class, 'store'])->name('withdrawal.store');
 });

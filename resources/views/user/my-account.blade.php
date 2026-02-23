@@ -1,10 +1,7 @@
 @include('user.header')
     <div class="lg:pl-[5rem] lg:p-4 lg:ml-64 bg-[#7c573a12]">
-      <div class="container px-4 py-[3rem]">
-        <div class="bg-gradient-to-r from-[#7c573a] to-[#231813] h-[12rem] right-0 top-0 absolute w-full ">
-
-        
-        </div>
+      <div class="container px-4 py-[3rem]" style="background: rgba(255,255,255,0.7); border-radius: 1rem;">
+        <!-- Removed brown gradient box at the top -->
         <div class="mb-10 mt-[10rem]">
           <div class="flex items-center space-x-1">
             <h2 class="text-3xl font-bold font-inter text-[#231813]">

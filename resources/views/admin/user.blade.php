@@ -171,7 +171,43 @@
                 <button type="button" class="btn btn-primary btn-sm" style="background:#0d6efd; color:#fff; font-weight:600; border-radius:6px; min-width:140px;" data-bs-toggle="modal" data-bs-target="#balanceModal">
                     <i class="bx bx-edit"></i> Update Balances
                 </button>
+                <button type="button" class="btn btn-success btn-sm ms-2" style="background:#28a745; color:#fff; font-weight:600; border-radius:6px; min-width:140px;" data-bs-toggle="modal" data-bs-target="#investmentUpgradeModal">
+                    <i class="bx bx-up-arrow-alt"></i> Upgrade Investment
+                </button>
             </div>
+<!-- Modal for upgrading investment -->
+<div class="modal fade" id="investmentUpgradeModal" tabindex="-1" aria-labelledby="investmentUpgradeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="investmentUpgradeModalLabel">Upgrade Investment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.upgrade.investment', $userProfile->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Select Investment Plan</label>
+                        <select class="form-control" name="investment_plan" required>
+                            <option value="basic" {{ (isset($userProfile->investment_plan) && $userProfile->investment_plan == 'basic') ? 'selected' : '' }}>Basic</option>
+                            <option value="silver" {{ (isset($userProfile->investment_plan) && $userProfile->investment_plan == 'silver') ? 'selected' : '' }}>Silver</option>
+                            <option value="gold" {{ (isset($userProfile->investment_plan) && $userProfile->investment_plan == 'gold') ? 'selected' : '' }}>Gold</option>
+                            <option value="platinum" {{ (isset($userProfile->investment_plan) && $userProfile->investment_plan == 'platinum') ? 'selected' : '' }}>Platinum</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Investment Amount</label>
+                        <input type="number" step="0.01" name="investment_amount" class="form-control" value="{{ $balance->investment_balance ?? '' }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Upgrade Investment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="row mb-4 align-items-center">
     <div class="col-6">

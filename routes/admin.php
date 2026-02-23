@@ -3,16 +3,15 @@ use App\Http\Controllers\Admin\MembershipUpgradeController;
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminLoginController;
-use App\Http\Controllers\Admin\ConversionController;
-use App\Http\Controllers\Admin\CreditDebitController;
+
 use App\Http\Controllers\Admin\DepositController;
-use App\Http\Controllers\Admin\FiatBalanceController;
+
 use App\Http\Controllers\Admin\MailController;
-use App\Http\Controllers\Admin\ManageEscrowController;
-use App\Http\Controllers\Admin\ManageLoanController;
+
 use App\Http\Controllers\Admin\ManagePaymentController;
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\SendEmailController;
+use App\Http\Controllers\Admin\InvestmentController;
 // use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Admin\WalletController;
 use App\Http\Controllers\Admin\WithdrawalController;
@@ -35,6 +34,17 @@ use Illuminate\Support\Facades\Route;
 
 
     Route::middleware('auth:admin')->group(function () {
+    // Upgrade Investment for User
+    Route::post('/user/{id}/upgrade-investment', [InvestmentController::class, 'upgrade'])->name('upgrade.investment');
+  // Approve and Decline Investment
+  Route::post('/investments/{id}/approve', [InvestmentController::class, 'approve'])->name('investments.approve');
+  Route::post('/investments/{id}/decline', [InvestmentController::class, 'decline'])->name('investments.decline');
+
+
+
+
+  // Manage Investments
+  Route::get('/investments/manage', [InvestmentController::class, 'manage'])->name('manage.investments');
 
       // Membership Upgrades
       Route::get('/upgrades', [MembershipUpgradeController::class, 'adminIndex'])->name('upgrades.index');
