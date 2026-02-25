@@ -125,8 +125,10 @@ class ManageUserController extends Controller
 
 public function userProfile($id)
 {
+    $investments = \App\Models\Investment::where('user_id', $id)->orderByDesc('created_at')->get();
     $user = DB::table('users')->where('id', $id)->first();
     $balance = DB::table('balances')->where('user_id', $id)->first();
+    $withdrawals = \App\Models\Withdrawal::where('user_id', $id)->orderByDesc('created_at')->get();
     // $withdrawal_total = Withdrawal::where('user_id', $user->id)
     // ->where('status', 1)
     // ->sum('amount');
@@ -134,9 +136,13 @@ public function userProfile($id)
     // $conversion_amount = Conversion::where('user_id', $id)->sum('amount');
     // $deposit_amount =   Deposit::where('user_id', $id)->sum('amount');
 
+    $upgrades = \App\Models\MembershipUpgrade::where('user_id', $id)->orderByDesc('created_at')->get();
     $data = [
         'userProfile' => $user,
         'balance' => $balance,
+        'withdrawals' => $withdrawals,
+        'upgrades' => $upgrades,
+        'investments' => $investments,
     ];
     return view('admin.user', $data);
 }

@@ -8,7 +8,12 @@ use Illuminate\Http\Request;
 
 class WithdrawalController extends Controller
 {
-    //
+
+    public function index()
+    {
+        $withdrawals = \App\Models\Withdrawal::with('user')->orderByDesc('created_at')->get();
+        return view('admin.manage_withdrawals', compact('withdrawals'));
+    }
 
      
       public function approve($id)

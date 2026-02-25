@@ -316,7 +316,17 @@
                 <a class="nav-link" data-bs-toggle="tab" href="#activities">Activities</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#withdrawals">Withdrawals</a>
+            </li>
+          
+            <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" href="#security">Security</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#upgrades">Membership Upgrades</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#investments">Investments</a>
             </li>
         </ul>
 
@@ -635,6 +645,198 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= WITHDRAWALS TAB ================= -->
+<div class="tab-pane" id="withdrawals">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Withdrawal History</h5>
+        </div>
+        <div class="card-body">
+            @if(count($withdrawals) > 0)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Requested At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($withdrawals as $withdrawal)
+                        <tr>
+                            <td>{{ $withdrawal->id }}</td>
+                            <td><strong>${{ number_format($withdrawal->amount, 2) }}</strong></td>
+                            <td>
+                                @if($withdrawal->status == 0)
+                                    <span class="badge bg-warning">Pending</span>
+                                @elseif($withdrawal->status == 1)
+                                    <span class="badge bg-success">Approved</span>
+                                @elseif($withdrawal->status == 2)
+                                    <span class="badge bg-danger">Declined</span>
+                                @else
+                                    <span class="badge bg-secondary">Unknown</span>
+                                @endif
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($withdrawal->created_at)->format('M j, Y g:i A') }}</td>
+                            <td>
+                                @if($withdrawal->status == 0)
+                                    <form action="{{ route('admin.withdrawal.approve', $withdrawal->id) }}" method="POST" style="display:inline-block;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                    </form>
+                                    <form action="{{ route('admin.withdrawal.decline', $withdrawal->id) }}" method="POST" style="display:inline-block; margin-left: 5px;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm">Decline</button>
+                                    </form>
+                                @else
+                                    <span class="text-muted">No actions</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @else
+            <div class="alert alert-info mb-0">No withdrawals found for this user.</div>
+            @endif
+        </div>
+    </div>
+</div>
+
+<!-- ================= UPGRADES TAB ================= -->
+<div class="tab-pane" id="upgrades">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Membership Upgrade History</h5>
+        </div>
+        <div class="card-body">
+            @if(count($upgrades) > 0)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Previous</th>
+                            <th>New</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Requested At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($upgrades as $upgrade)
+                        <tr>
+                            <td>{{ $upgrade->id }}</td>
+                            <td>{{ ucfirst($upgrade->previous_membership) }}</td>
+                            <td>{{ ucfirst($upgrade->new_membership) }}</td>
+                            <td><strong>${{ number_format($upgrade->amount, 2) }}</strong></td>
+                            <td>
+                                @if($upgrade->status == 0)
+                                    <span class="badge bg-warning">Pending</span>
+                                @elseif($upgrade->status == 1)
+                                    <span class="badge bg-success">Approved</span>
+                                @elseif($upgrade->status == 2)
+                                    <span class="badge bg-danger">Declined</span>
+                                @else
+                                    <span class="badge bg-secondary">Unknown</span>
+                                @endif
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($upgrade->created_at)->format('M j, Y g:i A') }}</td>
+                            <td>
+                                @if($upgrade->status == 0)
+                                    <form action="{{ route('admin.upgrades.approve', $upgrade->id) }}" method="POST" style="display:inline-block;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                    </form>
+                                    <form action="{{ route('admin.upgrades.reject', $upgrade->id) }}" method="POST" style="display:inline-block; margin-left: 5px;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm">Decline</button>
+                                    </form>
+                                @else
+                                    <span class="text-muted">No actions</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @else
+            <div class="alert alert-info mb-0">No membership upgrades found for this user.</div>
+            @endif
+        </div>
+    </div>
+</div>
+
+<!-- ================= INVESTMENTS TAB ================= -->
+<div class="tab-pane" id="investments">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Investment History</h5>
+        </div>
+        <div class="card-body">
+            @if(count($investments) > 0)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Plan</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($investments as $investment)
+                        <tr>
+                            <td>{{ $investment->id }}</td>
+                            <td>{{ ucfirst($investment->plan) }}</td>
+                            <td><strong>${{ number_format($investment->amount, 2) }}</strong></td>
+                            <td>
+                                @if($investment->status == 0)
+                                    <span class="badge bg-warning">Pending</span>
+                                @elseif($investment->status == 1)
+                                    <span class="badge bg-success">Approved</span>
+                                @elseif($investment->status == 2)
+                                    <span class="badge bg-danger">Declined</span>
+                                @else
+                                    <span class="badge bg-secondary">Unknown</span>
+                                @endif
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($investment->created_at)->format('M j, Y g:i A') }}</td>
+                            <td>
+                                @if($investment->status == 0)
+                                    <form action="{{ route('admin.investments.approve', $investment->id) }}" method="POST" style="display:inline-block;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                    </form>
+                                    <form action="{{ route('admin.investments.decline', $investment->id) }}" method="POST" style="display:inline-block; margin-left: 5px;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm">Decline</button>
+                                    </form>
+                                @else
+                                    <span class="text-muted">No actions</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @else
+            <div class="alert alert-info mb-0">No investments found for this user.</div>
+            @endif
         </div>
     </div>
 </div>

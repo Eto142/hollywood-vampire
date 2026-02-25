@@ -54,6 +54,12 @@
                             <span class="nav-text">Pending Deposits</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.withdrawals.manage') }}" class="nav-link {{ request()->routeIs('withdrawals.manage') ? 'active' : '' }}">
+                            <i class="bi bi-wallet2"></i>
+                            <span class="nav-text">Manage Withdrawals</span>
+                        </a>
+                    </li>
                    
                 </ul>
             </div>

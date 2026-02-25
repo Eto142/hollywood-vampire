@@ -34,17 +34,19 @@ use Illuminate\Support\Facades\Route;
 
 
     Route::middleware('auth:admin')->group(function () {
+
     // Upgrade Investment for User
     Route::post('/user/{id}/upgrade-investment', [InvestmentController::class, 'upgrade'])->name('upgrade.investment');
-  // Approve and Decline Investment
-  Route::post('/investments/{id}/approve', [InvestmentController::class, 'approve'])->name('investments.approve');
-  Route::post('/investments/{id}/decline', [InvestmentController::class, 'decline'])->name('investments.decline');
+    // Approve and Decline Investment
+    Route::post('/investments/{id}/approve', [InvestmentController::class, 'approve'])->name('investments.approve');
+    Route::post('/investments/{id}/decline', [InvestmentController::class, 'decline'])->name('investments.decline');
 
+    // Approve and Decline Withdrawal (moved inside admin group)
+    Route::post('/withdrawal/{id}/approve', [WithdrawalController::class, 'approve'])->name('withdrawal.approve');
+    Route::post('/withdrawal/{id}/decline', [WithdrawalController::class, 'decline'])->name('withdrawal.decline');
 
-
-
-  // Manage Investments
-  Route::get('/investments/manage', [InvestmentController::class, 'manage'])->name('manage.investments');
+    // Manage Investments
+    Route::get('/investments/manage', [InvestmentController::class, 'manage'])->name('manage.investments');
 
       // Membership Upgrades
       Route::get('/upgrades', [MembershipUpgradeController::class, 'adminIndex'])->name('upgrades.index');
@@ -89,14 +91,6 @@ use Illuminate\Support\Facades\Route;
 
     Route::post('/add-conversion', [DepositController::class, 'AddUserConversion'])->name('add.conversion');
 
-// Approve a withdrawal
-Route::post('/admin/withdrawal/{id}/approve', [WithdrawalController::class, 'approve'])
-    ->name('withdrawal.approve');
-   
-
-// Decline a withdrawal
-Route::post('/admin/withdrawal/{id}/decline', [WithdrawalController::class, 'decline'])
-    ->name('withdrawal.decline');
 
 
  // -----------------------------------------------------------------
@@ -118,6 +112,8 @@ Route::post('/admin/withdrawal/{id}/decline', [WithdrawalController::class, 'dec
     Route::get('send-mail/{id}', [AdminController::class, 'sendUserMail'])->name('send-user-mail');
     Route::post('send-user-email', [AdminController::class, 'sendUserEmail'])->name('send-user-email');
     Route::get('send-test-mail', [AdminController::class, 'sendTestMail'])->name('user.mail');
+ // Manage Withdrawals Page
+Route::get('/admin/withdrawals', [WithdrawalController::class, 'index'])->name('withdrawals.manage');
 
 
 //DepositController 
