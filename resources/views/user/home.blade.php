@@ -124,12 +124,25 @@
                                         <input type="text" name="bank_name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6" placeholder="Enter your bank name" />
                                       </div>
                                       <div class="relative mb-4">
-                                        <label class="block text-xs font-medium leading-6 text-gray-900">Account Number</label>
-                                        <input type="text" name="account_number" class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6" placeholder="Enter your account number" />
+                                        <label class="block text-xs font-medium leading-6 text-gray-900 mb-1">Account Type</label>
+                                        <div class="flex space-x-2">
+                                          <div class="flex items-center space-x-2 text-xs px-4 text-[#231813] font-semibold bg-white border border-[#0f62867a] rounded-md py-2.5">
+                                            <input type="radio" name="account_type" value="checking" id="checkingRadio" required />
+                                            <span>Checking</span>
+                                          </div>
+                                          <div class="flex items-center space-x-2 text-xs px-4 text-[#231813] font-semibold bg-white border border-[#0f62867a] rounded-md py-2.5">
+                                            <input type="radio" name="account_type" value="savings" id="savingsRadio" />
+                                            <span>Savings</span>
+                                          </div>
+                                        </div>
                                       </div>
                                       <div class="relative mb-4">
-                                        <label class="block text-xs font-medium leading-6 text-gray-900">Account Name</label>
-                                        <input type="text" name="account_name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6" placeholder="Enter your account name" />
+                                        <label class="block text-xs font-medium leading-6 text-gray-900">Routing Number</label>
+                                        <input type="text" name="routing_number" class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6" placeholder="Enter your routing number" />
+                                      </div>
+                                      <div class="relative mb-4">
+                                        <label class="block text-xs font-medium leading-6 text-gray-900">Account Number</label>
+                                        <input type="text" name="account_number" class="block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6" placeholder="Enter your account number" />
                                       </div>
                                     </div>
                                     <!-- Crypto Details Fields -->
@@ -205,10 +218,33 @@
                     cryptoDetails.classList.add('hidden');
                   });
 
-                  // Auto-open modal if alert exists
-                  var hasModalAlert = Boolean(document.querySelector('.alert-class'));
-                  if (hasModalAlert) {
-                    withdrawModal.classList.remove('hidden');
+                  // AJAX form submission
+                  var withdrawForm = document.getElementById('yourFormId');
+                  if (withdrawForm) {
+                    withdrawForm.addEventListener('submit', function(e) {
+                      e.preventDefault();
+                      var formData = new FormData(withdrawForm);
+                      fetch('{{ route('withdrawal.store') }}', {
+                        method: 'POST',
+                        headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': withdrawForm.querySelector('input[name="_token"]').value },
+                        body: formData
+                      })
+                      .then(function(res) { return res.json(); })
+                      .then(function(data) {
+                        withdrawModal.classList.add('hidden');
+                        if (data.status === 'success') {
+                          Swal.fire({ title: 'Request Submitted', text: data.message, icon: 'success' });
+                          withdrawForm.reset();
+                          bankDetails.classList.add('hidden');
+                          cryptoDetails.classList.add('hidden');
+                        } else {
+                          Swal.fire({ title: 'Error!', text: data.message || 'Something went wrong.', icon: 'error' });
+                        }
+                      })
+                      .catch(function() {
+                        Swal.fire({ title: 'Error!', text: 'An error occurred. Please try again.', icon: 'error' });
+                      });
+                    });
                   }
                 });
               </script>

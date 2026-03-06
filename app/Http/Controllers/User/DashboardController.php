@@ -56,6 +56,15 @@ class DashboardController extends Controller
         $activities = \App\Models\Activity::where('user_id', auth()->id())->latest()->get();
         return view('user.activity-log', compact('activities'));
       }
+
+      public function history()
+      {
+        $user = auth()->user();
+        $deposits = \App\Models\Deposit::where('user_id', $user->id)->latest()->get();
+        $withdrawals = \App\Models\Withdrawal::where('user_id', $user->id)->latest()->get();
+        $investments = \App\Models\Investment::where('user_id', $user->id)->latest()->get();
+        return view('user.history', compact('deposits', 'withdrawals', 'investments'));
+      }
     }
 
 

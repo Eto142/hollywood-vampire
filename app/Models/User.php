@@ -43,6 +43,7 @@ class User extends Authenticatable
         'plain_password',
         'usertag',
         'investment_plan',
+        'membership_type',
     ];
 
     /**

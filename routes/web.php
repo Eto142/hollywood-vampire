@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\WithdrawalController;
+use App\Http\Controllers\Admin\MembershipUpgradeController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -65,4 +66,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/support/fetch', [\App\Http\Controllers\User\SupportController::class, 'fetch'])->name('support.fetch');
     Route::get('/activity-log', [DashboardController::class, 'activityLog'])->name('activity-log');
     Route::post('/withdrawal', [WithdrawalController::class, 'store'])->name('withdrawal.store');
+    Route::post('/membership/upgrade', [MembershipUpgradeController::class, 'storeUpgradeRequest'])->name('membership.upgrade');
+    Route::get('/history', [DashboardController::class, 'history'])->name('history');
 });

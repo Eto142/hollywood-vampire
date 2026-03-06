@@ -132,6 +132,9 @@
                     <li>
                         <a href="{{ route('plan') }}" class="flex items-center rounded-lg px-7 pl-14 py-2 text-white  hover:bg-[#ffffff15]  duration-200">Plans</a>
                     </li>
+                    <li>
+                        <a href="{{ route('history') }}" class="flex items-center rounded-lg px-7 pl-14 py-2 text-white  hover:bg-[#ffffff15]  duration-200">History</a>
+                    </li>
 
                 </ul>
 

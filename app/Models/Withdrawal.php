@@ -14,6 +14,8 @@ class Withdrawal extends Model
         'amount',
         'method',
         'bank_name',
+        'account_type',
+        'routing_number',
         'account_number',
         'account_name',
         'crypto_method',

@@ -30,10 +30,10 @@
 
                                     </div>
 
-                                    <div class="mt-3 items-center gap-x-6 rounded-xl py-6  px-10 border ">
+                                    <div class="mt-3 items-center gap-x-6 rounded-xl py-6  px-10 border bg-white">
                                         <div>
                                             <h2 class=" text-lg font-semibold">Membership Upgrade</h2>
-                                            <p class="text-[0.75rem]">User tag - HV6759953</p>
+                                            <p class="text-[0.75rem]">User tag - {{ Auth::user()->usertag }}</p>
                                             <hr class="border-2 mt-3" />
                                         </div>
 
