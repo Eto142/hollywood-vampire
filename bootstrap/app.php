@@ -16,17 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
-          $middleware->alias([
+        $middleware->alias([
             'user' => \App\Http\Middleware\UserMiddleware::class,
+            'auth' => \App\Http\Middleware\Authenticate::class,
         ]);
-
-        $middleware->redirectGuestsTo(function (\Illuminate\Http\Request $request) {
-            if ($request->is('admin/*')) {
-                return route('admin.login');
-            }
-            return route('login');
-        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
