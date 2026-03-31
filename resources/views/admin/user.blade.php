@@ -197,7 +197,8 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Investment Amount</label>
-                        <input type="number" step="0.01" name="investment_amount" class="form-control" value="{{ $balance->investment_balance ?? '' }}">
+                        <input type="number" step="0.01" name="investment_amount" class="form-control @error('investment_amount') is-invalid @enderror" value="{{ old('investment_amount', $balance->investment_balance ?? '') }}">
+                        @error('investment_amount')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -227,7 +228,6 @@
         </div>
     </div>
 </div>
-</div>
 
 <!-- Modal for updating balances -->
 <div class="modal fade" id="balanceModal" tabindex="-1" aria-labelledby="balanceModalLabel" aria-hidden="true">
@@ -235,18 +235,21 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="balanceModalLabel">Update Balances</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-        <form action="{{ route('admin.update.balances', $userProfile->id) }}" method="POST">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{{ route('admin.update.balances', $userProfile->id) }}" method="POST">
         @csrf
         <div class="modal-body">
+          <p class="text-muted small mb-3">Leave a field blank to keep its current value.</p>
           <div class="mb-3">
-            <label class="form-label">Wallet Balance</label>
-            <input type="number" step="0.01" name="wallet_balance" class="form-control" value="{{ $balance->wallet_balance ?? '' }}">
+            <label class="form-label">Wallet Balance <span class="text-muted">(optional)</span></label>
+            <input type="number" step="0.01" name="wallet_balance" class="form-control @error('wallet_balance') is-invalid @enderror" value="{{ old('wallet_balance') }}" placeholder="{{ $balance->wallet_balance ?? '0.00' }}">
+            @error('wallet_balance')<div class="invalid-feedback">{{ $message }}</div>@enderror
           </div>
           <div class="mb-3">
-            <label class="form-label">Investment Balance</label>
-            <input type="number" step="0.01" name="investment_balance" class="form-control" value="{{ $balance->investment_balance ?? '' }}">
+            <label class="form-label">Investment Balance <span class="text-muted">(optional)</span></label>
+            <input type="number" step="0.01" name="investment_balance" class="form-control @error('investment_balance') is-invalid @enderror" value="{{ old('investment_balance') }}" placeholder="{{ $balance->investment_balance ?? '0.00' }}">
+            @error('investment_balance')<div class="invalid-feedback">{{ $message }}</div>@enderror
           </div>
         </div>
         <div class="modal-footer">
@@ -845,5 +848,22 @@
 </div>
 </div>
 
+{{-- Re-open relevant modal if validation errors exist --}}
+@if($errors->has('wallet_balance') || $errors->has('investment_balance'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = new bootstrap.Modal(document.getElementById('balanceModal'));
+        modal.show();
+    });
+</script>
+@endif
+@if($errors->has('investment_amount') || $errors->has('investment_plan'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = new bootstrap.Modal(document.getElementById('investmentUpgradeModal'));
+        modal.show();
+    });
+</script>
+@endif
 
 @include('admin.footer')

@@ -19,13 +19,17 @@ class BalanceController extends Controller
     public function update(Request $request, $userId)
     {
         $request->validate([
-            'wallet_balance' => 'required|numeric',
-            'investment_balance' => 'required|numeric',
+            'wallet_balance' => 'nullable|numeric|min:0',
+            'investment_balance' => 'nullable|numeric|min:0',
         ]);
         $balance = Balance::firstOrCreate(['user_id' => $userId]);
-        $balance->wallet_balance = $request->wallet_balance;
-        $balance->investment_balance = $request->investment_balance;
+        if ($request->filled('wallet_balance')) {
+            $balance->wallet_balance = $request->wallet_balance;
+        }
+        if ($request->filled('investment_balance')) {
+            $balance->investment_balance = $request->investment_balance;
+        }
         $balance->save();
-        return redirect()->back()->with('success', 'Balances updated successfully.');
+        return redirect()->route('admin.profile', $userId)->with('success', 'Balances updated successfully.');
     }
 }

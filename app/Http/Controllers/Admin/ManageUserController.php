@@ -154,8 +154,7 @@ public function userProfile($id)
     $user = User::findOrFail($id);
     $user->delete();
 
-
-        return back()->with('status', 'User deleted successfully');
+    return redirect()->route('admin.manage.users')->with('status', 'User deleted successfully');
 }
 
 

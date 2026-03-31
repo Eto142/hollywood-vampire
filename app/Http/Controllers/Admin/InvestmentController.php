@@ -35,13 +35,12 @@ class InvestmentController extends Controller
             ]
         );
 
-        // Optionally update balance
-        if ($user->balance) {
-            $user->balance->investment_balance = $request->investment_amount;
-            $user->balance->save();
-        }
+        // Always update (or create) balance record with new investment amount
+        $balance = \App\Models\Balance::firstOrCreate(['user_id' => $user->id]);
+        $balance->investment_balance = $request->investment_amount;
+        $balance->save();
 
-        return redirect()->back()->with('status', 'Investment upgraded successfully!');
+        return redirect()->route('admin.profile', $id)->with('success', 'Investment upgraded successfully!');
     }
 
 
